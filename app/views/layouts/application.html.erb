@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Shop</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title><%= full_title yield(:title) %></title>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%#= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= render "layouts/async_javascript", path: "application" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= render "layouts/shim" %>
+    <%= favicon_link_tag "icon-logo.ico" %>
+  </head>
+  <body>
+    <%= render "layouts/header" %>
+    <div class="container application">
+      <% flash.each do |key, value| %>
+        <%= content_tag(:div, value, class: "alert alert-#{(key == "danger")? "danger" : "success"}") %>
+      <% end %>
+      <%= yield %>
+    </div>
+    <%= render "layouts/footer" %>
+  </body>
 </html>
